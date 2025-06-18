@@ -86,6 +86,6 @@ I am a brazilian undergrad CS student @ UFCG who is interested in
 
 * 🧠 Artificial Intelligence
 
---
+---
 
 ### Star this repo 🌟 and give me a follow 🐧
