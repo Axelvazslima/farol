@@ -17,15 +17,15 @@ Use Docker to run it with no issues in the right versions - remember to have Doc
 1. Clone the repository
 
 ```shell
-git clone https://www.github.com/Axelvazslima/docker-monitoring-ui.git
-cd docker-monitoring-ui
+git clone https://www.github.com/Axelvazslima/farol.git
+cd farol
 ```
 
 2. Build the docker image and run the container
 
 ```shell
-docker build -t docker-monitoring-ui .
-docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock docker-monitoring-ui
+docker build -t farol .
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock farol
 ```
 
 3. To stop the application, run:
