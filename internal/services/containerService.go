@@ -51,6 +51,8 @@ func (c *ContainerService) getRunningContainersMap(ctx context.Context) (map[str
 }
 
 func (c *ContainerService) appendContainers(cmdOut string, runningMap map[string]bool) {
+	c.containers = nil
+
 	lines := strings.Split(strings.TrimSpace(cmdOut), "\n")
 	for _, line := range lines {
 		parts := strings.Split(line, "|")
@@ -114,5 +116,34 @@ func (c *ContainerService) StartContainer(ctx context.Context, id string) error 
 
 func (c *ContainerService) StopContainer(ctx context.Context, id string) error {
 	cmd := exec.CommandContext(ctx, "docker", "stop", id)
-	return cmd.Run()
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("failed to stop container %s: %v\nOutput: %s", id, err, string(out))
+	}
+	return nil
+}
+
+func (c *ContainerService) RemoveContainer(ctx context.Context, id string) error {
+	cmd := exec.CommandContext(ctx, "docker", "rm", id)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("Error removing container: %s\n%s", err, out)
+	}
+	return err
+}
+
+func (c *ContainerService) CreateContainer(ctx context.Context, name string, image string) error {
+	if name == "" {
+		return fmt.Errorf("container name is required")
+	}
+	if image == "" {
+		return fmt.Errorf("image name is required")
+	}
+
+	cmd := exec.CommandContext(ctx, "docker", "run", "-d", "--name", name, image)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("failed to create container: %v\nOutput: %s", err, string(out))
+	}
+	return nil
 }
