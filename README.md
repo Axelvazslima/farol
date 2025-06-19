@@ -25,10 +25,10 @@ cd farol
 
 ```shell
 docker build -t farol .
-docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock farol
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock --name "Farol-App" farol
 ```
 
-3. To stop the application, run:
+3. To stop the application, run -- or stop the container that is running the app:
 
 ```shell
 [ctrl/cmd] c
@@ -44,6 +44,64 @@ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock farol
 - ⏹️ Stop running containers
 - 🖱️ Mouse support for easy interaction
 - ✨ Built with pure CLI and Go — no browser or Electron involved!
+
+---
+
+## 🤔 How does it look?
+
+### 🏠 Home
+
+When you start the program, you'll see a list of your currently running containers on the left, and all containers (running or stopped) on the right — including the program’s own container ("Farol App").
+
+![Home screen](farol-screenshots/home.png)
+
+---
+
+### 🐳 Create a Container
+
+Click **"Create"**, then enter a **container name** and the **Docker image** you'd like to use.
+
+![Create container](farol-screenshots/create-container.png)
+
+After creation, the container will show up in both lists — as it’s already running:
+
+![Container created and running](farol-screenshots/all-containers-running.png)
+
+---
+
+### ⛔ Stop a Container
+
+Click **"Stop"** and select the container you want to stop:
+
+![Stop container](farol-screenshots/stop-container.png)
+
+Once stopped, the container will disappear from the “Running Containers” list and remain only in “All Containers” with a status of **Stopped**:
+
+![Container stopped view](farol-screenshots/container-stopped.png)
+
+---
+
+### ▶️ Start a Container
+
+To start a previously stopped container, click **"Start"** and choose the one you want to reactivate:
+
+![Start container](farol-screenshots/start-container.png)
+
+It will show up again in both views as **running**:
+
+![Container running again](farol-screenshots/all-containers-running-after-start.png)
+
+---
+
+### 🗑️ Remove a Container
+
+To delete a container, make sure it is **stopped**, then click **"Remove"** and select it:
+
+![Remove container](farol-screenshots/remove-container.png)
+
+Once removed, the container will no longer appear in any list:
+
+![Container removed completely](farol-screenshots/web-container-removed.png)
 
 ---
 
