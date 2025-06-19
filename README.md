@@ -6,8 +6,6 @@ This project is a **terminal-based Docker container dashboard** built using [�
 
 It gives users a visual way to **monitor**, **start**, and **stop** Docker containers, acting as a lightweight alternative to Docker Desktop — all from your terminal.
 
-**⚠️ UNFINISHED PROJECT! ⚠️**
-
 ---
 
 ## 🏎️ How to run it
