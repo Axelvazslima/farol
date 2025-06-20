@@ -147,3 +147,13 @@ func (c *ContainerService) CreateContainer(ctx context.Context, name string, ima
 	}
 	return nil
 }
+
+func (c *ContainerService) InspectContainer(ctx context.Context, id string) error {
+	cmd := exec.CommandContext(ctx, "docker", "inspect", "-f", "{{.State.Running}}", id)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Failed to inspect container %s: %v\nOutput: %s", id, err, string(out))
+	}
+
+	return nil
+}

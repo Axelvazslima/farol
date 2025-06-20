@@ -1,4 +1,3 @@
-// main.go
 package main
 
 import (
@@ -52,7 +51,10 @@ func main() {
 			if c.Running {
 				runningBuffer.WriteString(c.Name + "\n")
 			}
-			allBuffer.WriteString(fmt.Sprintf("%s (%s)\n", c.Name, map[bool]string{true: "Running", false: "Stopped"}[c.Running]))
+			allBuffer.WriteString(fmt.Sprintf("%s (%s)\n",
+				c.Name,
+				map[bool]string{true: "Running", false: "Stopped"}[c.Running],
+			))
 		}
 		runningView.SetText(runningBuffer.String())
 		allView.SetText(allBuffer.String())
@@ -63,6 +65,10 @@ func main() {
 		showContainerActionForm(app, "Start Container", getStoppedContainers(service), func(id string) error {
 			return service.StartContainer(ctx, id)
 		}, updateViews)
+	})
+
+	inspectBtn := tview.NewButton("Inspect").SetSelectedFunc(func() {
+		showInspectForm(app, service)
 	})
 
 	stopBtn := tview.NewButton("Stop").SetSelectedFunc(func() {
@@ -85,6 +91,7 @@ func main() {
 		AddItem(startBtn, 0, 1, false).
 		AddItem(stopBtn, 0, 1, false).
 		AddItem(createBtn, 0, 1, false).
+		AddItem(inspectBtn, 0, 1, false).
 		AddItem(removeBtn, 0, 1, false)
 
 	grid = tview.NewGrid().
@@ -198,4 +205,32 @@ func getStoppedContainers(service *services.ContainerService) []entities.Contain
 		}
 	}
 	return stopped
+}
+
+func displayContainerDetails(app *tview.Application, c entities.Container) {
+	details := fmt.Sprintf("Name: %s\nID: %s\nImage: %s\nStatus: %s", c.Name, c.ID, c.Image, map[bool]string{true: "Running", false: "Stopped"}[c.Running])
+	detailModal := tview.NewModal().SetText(details).AddButtons([]string{"OK"}).SetDoneFunc(func(_ int, _ string) {
+		app.SetRoot(grid, true)
+	})
+	detailModal.SetTitle("Container Details")
+	app.SetRoot(detailModal, false)
+}
+
+func showInspectForm(app *tview.Application, svc *services.ContainerService) {
+	containers := svc.GetAllContainers()
+	ids := make([]string, len(containers))
+	names := make([]string, len(containers))
+	for i, c := range containers {
+		ids[i] = c.ID
+		names[i] = c.Name
+	}
+	var idx int
+	form := tview.NewForm()
+	form.AddDropDown("Container", names, 0, func(_ string, i int) { idx = i })
+	form.AddButton("Inspect", func() {
+		displayContainerDetails(app, containers[idx])
+	})
+	form.AddButton("Cancel", func() { app.SetRoot(grid, true) })
+	form.SetBorder(true).SetTitle("Inspect Container")
+	app.SetRoot(form, true)
 }
