@@ -41,6 +41,7 @@ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock --name "Farol-A
 - 🟢 View running containers
 - 📦 List all containers
 - ▶️ Start stopped containers
+- 🔍 Inspect container details
 - ⏹️ Stop running containers
 - 🖱️ Mouse support for easy interaction
 - ✨ Built with pure CLI and Go — no browser or Electron involved!
@@ -90,6 +91,18 @@ To start a previously stopped container, click **"Start"** and choose the one yo
 It will show up again in both views as **running**:
 
 ![Container running again](farol-screenshots/all-containers-running-after-start.png)
+
+---
+
+### 🔍 Inspect a Container
+
+Click **"Inspect"** to open a details modal showing container name, ID, image used, and current status.
+
+![Inspect container](farol-screenshots/inspect-container.png)
+
+Now, you can see its ID, image and name
+
+![Container inspected](farol-screenshots/container-inspected.png)
 
 ---
 
